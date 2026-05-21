@@ -17,7 +17,7 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "TB_EMPRESTIMO")
 public class Emprestimo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

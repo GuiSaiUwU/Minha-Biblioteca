@@ -1,8 +1,5 @@
 package com.guilherme_augusto.biblioteca.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,7 +19,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "TB_LIVRO")
 public class Livro {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -48,15 +45,13 @@ public class Livro {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="categoria_id", nullable=false)
-    @JsonManagedReference
     private Categoria categoria;
 
-    // CA02.2: Status inicial: DISPONIVEL
-    @JoinColumn(name = "cliente_id", nullable = false)
-    @JsonBackReference
     @PrePersist
     public void prePersist() {
-        status = StatusEnum.DISPONIVEL;
+        if (status == null) {
+            status = StatusEnum.DISPONIVEL;
+        }
     }
 
 
