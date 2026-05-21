@@ -10,7 +10,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +18,7 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "TB_CATEGORIA")
 public class Categoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -30,8 +29,7 @@ public class Categoria {
     @NotNull
     private String nome;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "livro_id", nullable = false)
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Livro> livros;
 
