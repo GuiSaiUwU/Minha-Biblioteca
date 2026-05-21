@@ -2,7 +2,7 @@ package com.guilherme_augusto.biblioteca.api.entity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +32,7 @@ public class Categoria {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "livro_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnore
     private List<Livro> livros;
 
     public Long getId() {
