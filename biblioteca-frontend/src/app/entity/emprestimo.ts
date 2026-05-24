@@ -8,3 +8,10 @@ export class Emprestimo {
   dataDevolucaoPrevista!: Date;
   dataDevolucaoEfetiva!: Date;
 }
+
+export interface CriarEmprestimoRequest {
+  livroId: number;
+  nomePessoa: string;
+  telefone: string;
+  dataDevolucaoPrevista: string;
+}

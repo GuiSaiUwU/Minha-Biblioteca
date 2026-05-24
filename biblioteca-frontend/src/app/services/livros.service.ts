@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Categoria } from '../entity/categoria';
 import { CriarLivroRequest, Livro } from '../entity/livro';
-import { Emprestimo } from '../entity/emprestimo';
+import { CriarEmprestimoRequest, Emprestimo } from '../entity/emprestimo';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +27,13 @@ export class LivrosService {
 
   getEmprestimos(): Observable<Emprestimo[]> {
     return this.http.get<Emprestimo[]>(this.API_URL + '/emprestimos');
+  }
+
+  criarEmprestimo(requisicao: CriarEmprestimoRequest): Observable<Emprestimo> {
+    return this.http.post<Emprestimo>(this.API_URL + '/emprestimos', requisicao);
+  }
+
+  devolverEmprestimo(emprestimoId: number): Observable<Emprestimo> {
+    return this.http.post<Emprestimo>(`${this.API_URL}/emprestimos/${emprestimoId}/devolver`, {});
   }
 }
