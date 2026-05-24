@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Livro } from '../entity/livro';
+import { Categoria } from '../entity/categoria';
+import { CriarLivroRequest, Livro } from '../entity/livro';
 import { Emprestimo } from '../entity/emprestimo';
 
 @Injectable({
@@ -14,6 +15,14 @@ export class LivrosService {
 
   getLivros(): Observable<Livro[]> {
     return this.http.get<Livro[]>(this.API_URL + '/livros');
+  }
+
+  criarLivro(requisicao: CriarLivroRequest): Observable<Livro> {
+    return this.http.post<Livro>(this.API_URL + '/livros', requisicao);
+  }
+
+  listarCategorias(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(this.API_URL + '/categorias');
   }
 
   getEmprestimos(): Observable<Emprestimo[]> {

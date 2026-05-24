@@ -1,19 +1,18 @@
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { LivrosService } from '../../services/livros.service';
-import { map, Observable } from 'rxjs';
-import { Livro } from '../../entity/livro';
-import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
-import { AsyncPipe } from '@angular/common';
-import { SelectModule } from 'primeng/select';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputNumber } from "primeng/inputnumber";
-import { Tag, TagModule } from 'primeng/tag';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { Livro } from '../../entity/livro';
+import { LivrosService } from '../../services/livros.service';
+import { LivroForms } from './livro-forms/livro-forms';
 
 @Component({
   selector: 'app-livros-pagina',
@@ -27,14 +26,16 @@ import { Tag, TagModule } from 'primeng/tag';
     FloatLabelModule,
     InputGroupModule,
     InputGroupAddonModule,
-    TagModule
-],
+    TagModule,
+    DialogModule,
+    LivroForms,
+  ],
   templateUrl: './livros-pagina.html',
   styleUrl: './livros-pagina.scss',
 })
 export class LivrosPagina implements OnInit {
   private livrosService: LivrosService = inject(LivrosService);
-  livros$: Observable<Livro[]> = this.livrosService.getLivros();
+  mostrarFormulario = false;
   private todosLivros: Livro[] = [];
   livrosAMostra: Livro[] = [];
 
@@ -51,7 +52,11 @@ export class LivrosPagina implements OnInit {
   buscaTexto: string = '';
 
   ngOnInit(): void {
-    this.livros$.subscribe((livros) => {
+    this.carregarLivros();
+  }
+
+  carregarLivros(): void {
+    this.livrosService.getLivros().subscribe((livros) => {
       this.todosLivros = livros;
       this.livrosAMostra = livros;
       this.categorias = ['Todas'].concat(
@@ -87,5 +92,18 @@ export class LivrosPagina implements OnInit {
     this.statusSelecionado = '';
     this.buscaTexto = '';
     this.filtrarLivros();
+  }
+
+  abrirFormulario(): void {
+    this.mostrarFormulario = true;
+  }
+
+  fecharFormulario(): void {
+    this.mostrarFormulario = false;
+  }
+
+  aoLivroCriado(): void {
+    this.fecharFormulario();
+    this.carregarLivros();
   }
 }

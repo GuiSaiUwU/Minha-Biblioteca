@@ -3,6 +3,14 @@ export enum StatusEnum {
   EMPRESTADO = 'EMPRESTADO'
 }
 
+export interface CriarLivroRequest {
+  titulo: string;
+  autor: string;
+  isbn: string;
+  ano: number;
+  categoriaId: number;
+}
+
 export class Livro {
   id!: number;
   titulo!: string;
