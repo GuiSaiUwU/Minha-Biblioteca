@@ -10,9 +10,9 @@
   @if (carregando) {
     <p>Carregando empréstimos...</p>
   } @else {
-    <p-table [value]="emprestimos" class="emprestimos-table">
+    <p-table [value]="emprestimos" class="livros-table">
       <ng-template #header>
-        <tr class="emprestimos-table-row">
+        <tr class="livros-table-row">
           <th>Livro</th>
           <th>Pessoa</th>
           <th>Empréstimo</th>
@@ -36,7 +36,7 @@
               -
             }
           </td>
-          <td>
+          <td [style]="{ 'width': 'min-content' }">
             @if (getEmprestimoStatus(emprestimo) === 'Devolvido') {
               <p-tag severity="success" value="Devolvido"></p-tag>
             } @else if (getEmprestimoStatus(emprestimo) === 'Com previsão') {
