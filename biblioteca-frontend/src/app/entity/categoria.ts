@@ -4,3 +4,8 @@ export class Categoria {
   descricao!: string;
   quantidadeLivros!: number;
 }
+
+export interface CriarCategoriaRequest {
+  nome: string;
+  descricao: string;
+}

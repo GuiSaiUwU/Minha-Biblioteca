@@ -27,6 +27,7 @@
         <p-select
           [options]="categorias"
           [(ngModel)]="categoriaSelecionada"
+          [filter]="true"
           id="categoria"
         ></p-select>
         <label for="categoria">Categoria</label>
@@ -64,7 +65,7 @@
         <td>{{ livro.titulo }}</td>
         <td>{{ livro.autor }}</td>
         <td>{{ livro.categoriaNome }}</td>
-        <td>
+        <td [style]="{'width': 'min-content'}">
           @if (livro.status === "DISPONIVEL") {
             <p-tag severity="success" value="Disponível"></p-tag>
           } @else if (livro.status === "EMPRESTADO") {

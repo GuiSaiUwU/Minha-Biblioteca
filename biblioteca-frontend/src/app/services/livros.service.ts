@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Categoria } from '../entity/categoria';
+import { Categoria, CriarCategoriaRequest } from '../entity/categoria';
 import { CriarLivroRequest, Livro } from '../entity/livro';
 import { CriarEmprestimoRequest, Emprestimo } from '../entity/emprestimo';
 
@@ -25,6 +25,14 @@ export class LivrosService {
     return this.http.get<Categoria[]>(this.API_URL + '/categorias');
   }
 
+  criarCategoria(requisicao: CriarCategoriaRequest): Observable<Categoria> {
+    return this.http.post<Categoria>(this.API_URL + '/categorias', requisicao);
+  }
+
+  excluirCategoria(categoriaId: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/categorias/${categoriaId}`);
+  }
+  
   getEmprestimos(): Observable<Emprestimo[]> {
     return this.http.get<Emprestimo[]>(this.API_URL + '/emprestimos');
   }
