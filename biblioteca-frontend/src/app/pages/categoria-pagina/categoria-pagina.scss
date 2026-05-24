@@ -1,0 +1,17 @@
+.cabecalho-pagina {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+
+	h1 {
+		margin: 0;
+		font-size: 2rem;
+	}
+
+	p {
+		margin: 0.35rem 0 0;
+		color: var(--p-text-color-secondary, #5f6b7a);
+	}
+}

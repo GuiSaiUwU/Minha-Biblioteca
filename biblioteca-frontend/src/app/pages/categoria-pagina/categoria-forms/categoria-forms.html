@@ -1,0 +1,22 @@
+<form class="categoria-form" [formGroup]="formulario" (ngSubmit)="salvar()">
+  <div class="campos">
+    <p-floatlabel variant="on">
+      <input pInputText id="nome" formControlName="nome" />
+      <label for="nome">Nome</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <input pInputText id="descricao" formControlName="descricao" />
+      <label for="descricao">Descrição</label>
+    </p-floatlabel>
+  </div>
+
+  @if (mensagemErro) {
+    <p class="erro">{{ mensagemErro }}</p>
+  }
+
+  <div class="acoes">
+    <p-button type="button" label="Cancelar" severity="secondary" (click)="fechar()" />
+    <p-button type="submit" label="Salvar categoria" [loading]="salvando" />
+  </div>
+</form>
