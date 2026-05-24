@@ -34,6 +34,7 @@ public class CategoriaController {
         List<CategoriaRespostaDTO> resposta = categorias.stream()
                 .map(categoria -> {
                     return new CategoriaRespostaDTO(
+                            categoria.getId(),
                             categoria.getNome(),
                             categoria.getDescricao(),
                             categoria.getLivros().size());

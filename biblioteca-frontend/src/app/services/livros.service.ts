@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Livro } from '../entity/livro';
-import { Emprestimo } from '../entity/emprestimo';
+import { Categoria } from '../entity/categoria';
+import { CriarLivroRequest, Livro } from '../entity/livro';
+import { CriarEmprestimoRequest, Emprestimo } from '../entity/emprestimo';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,23 @@ export class LivrosService {
     return this.http.get<Livro[]>(this.API_URL + '/livros');
   }
 
+  criarLivro(requisicao: CriarLivroRequest): Observable<Livro> {
+    return this.http.post<Livro>(this.API_URL + '/livros', requisicao);
+  }
+
+  listarCategorias(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(this.API_URL + '/categorias');
+  }
+
   getEmprestimos(): Observable<Emprestimo[]> {
     return this.http.get<Emprestimo[]>(this.API_URL + '/emprestimos');
+  }
+
+  criarEmprestimo(requisicao: CriarEmprestimoRequest): Observable<Emprestimo> {
+    return this.http.post<Emprestimo>(this.API_URL + '/emprestimos', requisicao);
+  }
+
+  devolverEmprestimo(emprestimoId: number): Observable<Emprestimo> {
+    return this.http.post<Emprestimo>(`${this.API_URL}/emprestimos/${emprestimoId}/devolver`, {});
   }
 }
