@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+.livros-table {
+  border-radius: 8px;
+  border: 3px solid var(--p-surface-700);
+  overflow: hidden;
+}
+
+.livros-table-row th {
+  background-color: var(--p-surface-800) !important;
+}
