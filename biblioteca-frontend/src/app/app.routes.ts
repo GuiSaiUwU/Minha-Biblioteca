@@ -1,13 +1,9 @@
 import { Routes } from '@angular/router';
-import { LivrosDashboard } from './pages/livros-dashboard/livros-dashboard';
-import { CategoriaPagina } from './pages/categoria-pagina/categoria-pagina';
-import { EmprestimosPagina } from './pages/emprestimos-pagina/emprestimos-pagina';
-import { LivrosPagina } from './pages/livros-pagina/livros-pagina';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-  {path: 'dashboard', component: LivrosDashboard},
-  {path: 'categorias', component: CategoriaPagina},
-  {path: 'emprestimos', component: EmprestimosPagina},
-  {path: 'livros', component: LivrosPagina}
+  {path: 'dashboard', loadComponent: () => import('./pages/livros-dashboard/livros-dashboard').then(m => m.LivrosDashboard)},
+  {path: 'categorias', loadComponent: () => import('./pages/categoria-pagina/categoria-pagina').then(m => m.CategoriaPagina)},
+  {path: 'emprestimos', loadComponent: () => import('./pages/emprestimos-pagina/emprestimos-pagina').then(m => m.EmprestimosPagina)},
+  {path: 'livros', loadComponent: () => import('./pages/livros-pagina/livros-pagina').then(m => m.LivrosPagina)}
 ];
