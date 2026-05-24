@@ -1,1 +1,56 @@
-<p>livros-dashboard works!</p>
+<div style="padding-left: 1rem;">
+  @if ((livros$ | async) && (emprestimos$ | async)) {
+    <div class="dashboard-cards">
+      <p-card header="Informações Gerais">
+        <p>Total de Livros Cadastrados: {{ (livros$ | async)?.length }}</p>
+        <p-divider />
+        <p>
+          Total de Livros Disponíveis:
+          {{ (livros$ | async)?.filter((livro) => livro.status === 'DISPONIVEL')?.length }}
+        </p>
+        <p-divider />
+        <p>Total de Livros Emprestados:{{ (emprestimos$ | async)?.length }}</p>
+        <p-divider />
+        <p>
+          Total de Empréstimos Ativos:
+          {{ (livros$ | async)?.filter((livro) => livro.status === 'EMPRESTADO')?.length }}
+        </p>
+      </p-card>
+
+      <p-card header="5 Últimos Empréstimos:">
+        <p-table [value]="(ultimosEmprestimos$ | async)!" class="livros-table">
+          <ng-template #header>
+            <tr class="livros-table-row">
+              <th>Título</th>
+              <th>Pessoa</th>
+              <th>Data de Empréstimo</th>
+              <th>Previsão</th>
+              <th>Status</th>
+            </tr>
+            <ng-template #body let-emprestimo>
+              <tr
+                [style]="{
+                  'background-color': getEmprestimoBackground(emprestimo),
+                }"
+              >
+                <td>{{ emprestimo.livroTitulo }}</td>
+                <td>{{ emprestimo.nomePessoa }}</td>
+                <td>{{ emprestimo.dataEmprestimo | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ emprestimo.dataDevolucaoPrevista | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                  <span>
+                    {{ getEmprestimoStatus(emprestimo) }}
+                  </span>
+                </td>
+              </tr></ng-template
+            >
+          </ng-template>
+        </p-table>
+      </p-card>
+    </div>
+
+    <app-atrasados [emprestimos$]="emprestimos$" [dataDeHoje]="dataDeHoje"/>
+  } @else {
+    <p>Carregando livros...</p>
+  }
+</div>

@@ -1,5 +1,5 @@
 .dashboard-cards {
   display: grid;
   gap: 1rem;
-  grid-template: repeat(auto-fit, minmax(200px, 1fr)) / repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: 345px auto;
 }

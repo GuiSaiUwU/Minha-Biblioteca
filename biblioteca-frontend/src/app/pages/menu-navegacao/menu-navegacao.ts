@@ -16,22 +16,26 @@ export class MenuNavegacao implements OnInit {
       {
         label: 'Dashboard',
         icon: 'pi pi-fw pi-home',
-        routerLink: '/dashboard'
+        routerLink: '/dashboard',
+        styleClass: 'dashboard-menu-item'
       },
       {
         label: 'Livros',
         icon: 'pi pi-fw pi-book',
-        routerLink: '/livros'
+        routerLink: '/livros',
+        styleClass: 'dashboard-menu-item'
       },
       {
         label: 'Emprestimos',
         icon: 'pi pi-fw pi-users',
-        routerLink: '/emprestimos'
+        routerLink: '/emprestimos',
+        styleClass: 'dashboard-menu-item'
       },
       {
         label: 'Categorias',
         icon: 'pi pi-fw pi-tags',
-        routerLink: '/categorias'
+        routerLink: '/categorias',
+        styleClass: 'dashboard-menu-item'
       }
     ]
   }
