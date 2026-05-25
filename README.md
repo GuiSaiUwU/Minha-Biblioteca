@@ -26,7 +26,7 @@ Categorias (menu)
 ![Categorias](./.docs/categorias-menu.png)
 
 
-## 🌐 Backend (`recipebook-backend`):
+## 🌐 Backend (`biblioteca-backend`):
 ### 🛠️ Tecnologias Utilizadas
 - **Java 17** - Linguagem de programação
 - **Maven** - Gerenciador de dependências e build
