@@ -1,0 +1,126 @@
+<div class="cabecalho-pagina">
+  <div>
+    <p>Registre empréstimos e acompanhe os prazos.</p>
+  </div>
+
+  <p-button label="Realizar empréstimo" icon="pi pi-plus" (click)="abrirFormulario()" />
+</div>
+
+<p-card header="Empréstimos registrados" [style]="{ 'margin-top': '1rem' }">
+  @if (carregando) {
+    <p>Carregando empréstimos...</p>
+  } @else {
+    <p-table [value]="emprestimos" class="livros-table">
+      <ng-template #header>
+        <tr class="livros-table-row">
+          <th>Livro</th>
+          <th>Pessoa</th>
+          <th>Empréstimo</th>
+          <th>Previsão</th>
+          <th>Devolução</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-emprestimo>
+        <tr [style]="{ 'background-color': getEmprestimoBackground(emprestimo) }">
+          <td>{{ emprestimo.livroTitulo }}</td>
+          <td>{{ emprestimo.nomePessoa }}</td>
+          <td>{{ emprestimo.dataEmprestimo | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ emprestimo.dataDevolucaoPrevista | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            @if (emprestimo.dataDevolucaoEfetiva) {
+              {{ emprestimo.dataDevolucaoEfetiva | date: 'dd/MM/yyyy HH:mm' }}
+            } @else {
+              -
+            }
+          </td>
+          <td [style]="{ 'width': 'min-content' }">
+            @if (getEmprestimoStatus(emprestimo) === 'Devolvido') {
+              <p-tag severity="success" value="Devolvido"></p-tag>
+            } @else if (getEmprestimoStatus(emprestimo) === 'Com previsão') {
+              <p-tag severity="info" value="Com previsão"></p-tag>
+            } @else {
+              <p-tag severity="danger" value="Atrasado"></p-tag>
+            }
+          </td>
+          <td>
+            @if (!emprestimo.dataDevolucaoEfetiva) {
+              <p-button
+                label="Devolver"
+                icon="pi pi-undo"
+                severity="secondary"
+                [loading]="devolvendoEmprestimoId === emprestimo.id"
+                [disabled]="devolvendoEmprestimoId !== null"
+                (click)="devolverEmprestimo(emprestimo.id)"
+              />
+            } @else {
+              <span>-</span>
+            }
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  }
+</p-card>
+
+<p-dialog
+  [(visible)]="mostrarFormulario"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  header="Realizar empréstimo"
+  [style]="{ width: 'min(92vw, 44rem)' }"
+  (onHide)="fecharFormulario()"
+>
+  <form class="emprestimo-form" [formGroup]="formulario" (ngSubmit)="realizarEmprestimo()">
+    <div class="campos">
+      <p-floatlabel variant="on">
+        <p-select
+          id="livroId"
+          formControlName="livroId"
+          [options]="livrosDisponiveis"
+          optionLabel="titulo"
+          optionValue="id"
+          placeholder="Selecione um livro"
+          appendTo="body"
+          [filter]="true"
+          filterBy="titulo"
+          filterPlaceholder="Digite para pesquisar"
+          [emptyMessage]="'Nenhum livro disponível'"
+        ></p-select>
+        <label for="livroId">Livro</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <input pInputText id="nomePessoa" formControlName="nomePessoa" />
+        <label for="nomePessoa">Nome da pessoa</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <input pInputText id="telefone" formControlName="telefone" />
+        <label for="telefone">Telefone</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <input
+          pInputText
+          id="dataDevolucaoPrevista"
+          type="datetime-local"
+          formControlName="dataDevolucaoPrevista"
+        />
+        <label for="dataDevolucaoPrevista">Previsão de devolução</label>
+      </p-floatlabel>
+    </div>
+
+    @if (mensagemErro) {
+      <p class="erro">{{ mensagemErro }}</p>
+    }
+
+    <div class="acoes">
+      <p-button type="button" label="Cancelar" severity="secondary" (click)="fecharFormulario()" />
+      <p-button type="submit" label="Salvar empréstimo" [loading]="salvando" />
+    </div>
+  </form>
+</p-dialog>

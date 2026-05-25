@@ -1,6 +1,7 @@
 package com.guilherme_augusto.biblioteca.api.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,9 +41,10 @@ public class EmprestimoService {
         emprestimo.setNomePessoa(requisicao.getNomePessoa());
         emprestimo.setTelefone(requisicao.getTelefone());
         emprestimo.setDataEmprestimo(LocalDateTime.now());
-        emprestimo.setDataDevolucaoPrevista(
-                requisicao.getDataDevolucaoPrevista() != null ? requisicao.getDataDevolucaoPrevista()
-                        : LocalDateTime.now().plusDays(7));
+        if (requisicao.getDataDevolucaoPrevista().isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de devolução prevista inválida");
+        }
+        emprestimo.setDataDevolucaoPrevista(requisicao.getDataDevolucaoPrevista());
 
         livro.setStatus(StatusEnum.EMPRESTADO);
         livroRepository.save(livro);
@@ -82,5 +84,11 @@ public class EmprestimoService {
                 emprestimo.getDataEmprestimo(),
                 emprestimo.getDataDevolucaoPrevista(),
                 emprestimo.getDataDevolucaoEfetiva());
+    }
+
+    public List<EmprestimoRespostaDTO> listar() {
+        return emprestimoRepository.findAll().stream()
+                .map(this::toResposta)
+                .toList();
     }
 }

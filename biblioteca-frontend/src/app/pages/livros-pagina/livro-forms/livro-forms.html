@@ -1,0 +1,47 @@
+<form class="livro-form" [formGroup]="formulario" (ngSubmit)="salvar()">
+  <div class="campos">
+    <p-floatlabel variant="on">
+      <input pInputText id="titulo" formControlName="titulo" />
+      <label for="titulo" appendTo="body" >Título</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <input pInputText id="autor" formControlName="autor" />
+      <label for="autor">Autor</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <input pInputText id="isbn" formControlName="isbn" />
+      <label for="isbn">ISBN</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <input pInputText id="ano" type="number" formControlName="ano" />
+      <label for="ano">Ano</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <p-select
+        id="categoriaId"
+        formControlName="categoriaId"
+        [options]="categorias"
+        optionLabel="nome"
+        optionValue="id"
+        [filter]="true"
+        [loading]="carregandoCategorias"
+        placeholder="Selecione uma categoria"
+        appendTo="body"
+      ></p-select>
+    </p-floatlabel>
+
+  </div>
+
+  @if (mensagemErro) {
+    <p class="erro">{{ mensagemErro }}</p>
+  }
+
+  <div class="acoes">
+    <p-button type="button" label="Cancelar" severity="secondary" (click)="fechar()" />
+    <p-button type="submit" label="Salvar livro" [loading]="salvando" />
+  </div>
+</form>

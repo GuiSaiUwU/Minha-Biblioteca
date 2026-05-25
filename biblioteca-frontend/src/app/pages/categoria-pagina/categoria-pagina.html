@@ -1,0 +1,59 @@
+<div class="cabecalho-pagina">
+	<div>
+		<p>Gerencie as categorias do acervo.</p>
+	</div>
+
+	<p-button label="Nova categoria" icon="pi pi-plus" (click)="abrirFormulario()" />
+</div>
+
+<p-card header="Categorias cadastradas" [style]="{ 'margin-top': '1rem' }">
+	@if (carregando) {
+		<p>Carregando categorias...</p>
+	} @else {
+		<p-table [value]="categorias" class="livros-table">
+			<ng-template #header>
+				<tr class="livros-table-row">
+					<th>Nome</th>
+					<th>Descrição</th>
+					<th>Quantidade de livros</th>
+          <th>Ações</th>
+				</tr>
+			</ng-template>
+
+			<ng-template #body let-categoria>
+				<tr>
+					<td>{{ categoria.nome }}</td>
+					<td>{{ categoria.descricao }}</td>
+					<td>{{ categoria.quantidadeLivros }}</td>
+					<td>
+            @if (categoria.quantidadeLivros === 0) {
+              <p-button
+                label="Excluir"
+                icon="pi pi-trash"
+                severity="danger"
+                (click)="excluirCategoria(categoria.id)"
+              />
+            } @else {
+              <span style="color: var(--p-text-color-secondary, #5f6b7a); font-style: italic;">
+                Excluir apenas categorias sem livros
+              </span>
+            }
+          </td>
+				</tr>
+			</ng-template>
+		</p-table>
+	}
+</p-card>
+
+<p-dialog
+	[(visible)]="mostrarFormulario"
+	[modal]="true"
+	[draggable]="false"
+	[resizable]="false"
+	header="Criar categoria"
+	[style]="{ width: 'min(92vw, 42rem)' }"
+	(onHide)="fecharFormulario()"
+>
+	<app-categoria-forms (criado)="aoCategoriaCriada()" (cancelado)="fecharFormulario()">
+  </app-categoria-forms>
+</p-dialog>

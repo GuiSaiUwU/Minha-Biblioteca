@@ -1,7 +1,10 @@
 package com.guilherme_augusto.biblioteca.api.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +25,13 @@ public class EmprestimoController {
 
     public EmprestimoController(EmprestimoService emprestimoService) {
         this.emprestimoService = emprestimoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmprestimoRespostaDTO>> listar() {
+        return ResponseEntity.ok(emprestimoService.listar().stream()
+                .sorted((e1, e2) -> e2.dataEmprestimo.compareTo(e1.dataEmprestimo))
+                .toList());
     }
 
     @PostMapping
